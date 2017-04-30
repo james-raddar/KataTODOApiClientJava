@@ -41,6 +41,14 @@ public class TodoApiClientTest extends MockWebServerTest {
     assertRequestContainsHeader("Accept", "application/json");
   }
 
+  @Test public void sendsAcceptLanguageHeaders() throws Exception {
+      enqueueMockResponse();
+
+      apiClient.getAllTasks();
+
+      assertRequestContainsHeader("Accept-Language", "es");
+  }
+
   @Test public void sendsGetAllTaskRequestToTheCorrectEndpoint() throws Exception {
     enqueueMockResponse();
 
