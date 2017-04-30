@@ -122,7 +122,11 @@ public class MockWebServerTest {
     if (fileName == null) {
       return "";
     }
-    fileName = getClass().getResource("/" + fileName).getFile();
+
+    // This line doesn't work for me :[
+    // fileName = getClass().getResource("/" + fileName).getFile();
+    // So I have fixed with this
+    fileName = "src/test/resources/" + fileName;
     File file = new File(fileName);
     List<String> lines = FileUtils.readLines(file, FILE_ENCODING);
     StringBuilder stringBuilder = new StringBuilder();
