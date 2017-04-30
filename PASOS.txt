@@ -1,0 +1,76 @@
+/*** EJERCICIO ***/
+
+Queremos hacer test de integración, en este caso simulando nuestro servidor backend. En vez de
+apuntar al HTTP del servidor real, montaremos uno en local para simular las peticiones con un
+servicio ya preparado. Estos tests so nde caja negra porque el ApiClient nos da igual esté.
+
+Haremos HTTP Stubbing para simular peticiones y probar los JSON que tendremos en local y que
+deben ser los mismos que el servidor real nos devolverá.
+
+Apuntaremos a localhost y se levantará un servidor local con un puerto aleatorio. Habría que
+configurar varios puertos si queremos levantar varios tests en paralelo.
+
+
+/*** PASOS ***/
+
+1) Forkeamos el proyecto desde https://github.com/Karumi/KataTODOApiClientJava y nos vamos a la
+rama de kata-todo-api-client
+
+2) Opcionalmente añadimos el repositorio a TravisCI para la integración contínua. El checkstyle del
+archivo de travis.yml lo sustituimos por el de este proyecto (el checkstyle que viene por defecto
+son los estilos de Karumi y hay que quitarlo)
+
+3) Ejecutamos la tarea copyTestResources con ./gradlew copyTestResources (Cada vez que añadamos un
+nuevo json a la carpeta hay que hacerlo)
+
+NOTA: He tenido que sustituir en la clase MockWebServerla la linea para capturar la ruta de los json
+y utilizar esta fileName = "src/test/resources/" + fileName; porque no me funcionaba (en la mayoría
+de ordenadores sí funciona).
+
+
+/*** NOTA ***/
+
+Para los tests de cada llamada a la API, primero se debería comprobar el VERB (POST, GET, etc), luego
+el PATH (/todos, /tasks, etc) y luego los HEADER. Faltarían muchos tests por completar a parte de los
+de este ejemplo
+
+
+/*** TESTS ***/
+
+<-- TESTS PARA GET ALL TASKS -->
+
+1) Comprobar que la cabecera Accept-Language: es
+
+2) Comprobar que una lista está vacía. Para ello, añadimos un json vacío y ejecutamos la tarea
+para actualizar los ficheros
+
+3) Comprobar que si un item no existe devuelve un 404 con un ItemNotFoundException (ver el
+método getAllTasks() como gestiona las excepciones)
+
+4) Comprobar que si en vez de un json nos llega un documento vacío (es raro pero se puede dar el caso
+de que no se nos devuelva un json)
+
+<-- TESTS PARA GET TASK BY ID -->
+
+5) Ruta dado un id es correcta
+
+6) Datos de un task obtenido dado un id es correcto
+
+7) Error desconocido arroja UnknownErrorException
+
+8) Si un id no existe devuelve un 404 con ItemNotFoundException
+
+9) Comprobar que el Accept es application/json
+
+<-- TESTS PARA ADD TASK -->
+
+10) Comprobar que el path es correcto
+
+11) Comprobar que el body es correcto
+
+12) Comprobar que se crea un task bien
+
+13) Error desconocido arroja UnknownErrorException
+
+
+NOTA: PARA VER MÁS TESTS IR AL MASTER DE https://github.com/Karumi/KataTODOApiClientJava

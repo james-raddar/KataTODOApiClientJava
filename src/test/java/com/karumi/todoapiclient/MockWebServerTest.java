@@ -29,6 +29,7 @@ import org.junit.Before;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.core.StringContains.containsString;
 
+// Esta clase nos permite realizar las comprobaciones para la técnica de HTTP Stubbing fácilmente
 public class MockWebServerTest {
 
   private static final String FILE_ENCODING = "UTF-8";
